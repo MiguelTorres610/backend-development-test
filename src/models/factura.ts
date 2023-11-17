@@ -1,6 +1,5 @@
-import { RowDataPacket } from "mysql2"
 
-export default interface Factura extends RowDataPacket {
+export default interface Factura {
   id?: number;
   id_comprador?: number;
   costo_total?: number;

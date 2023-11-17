@@ -8,21 +8,21 @@ const estados = {
 };
 
 interface IProductoRepository {
-  save(producto: Producto): Promise<String>;
+  save(producto: Producto): Promise<string>;
 }
 
 class ProductoRepository implements IProductoRepository {
-  save(producto: Producto): Promise<String> {
+  save(producto: Producto): Promise<string> {
     producto.fecha_creacion = new Date();
     producto.estado = estados.activo;
     return new Promise((resolve, reject) => {
-      connection.query<ResultSetHeader>(
-        "INSERT INTO productos(precio, id_categoria, fecha_creacion, estado) VALUES(?,?,?,?)",
-        [producto.precio, producto.id_categoria, producto.fecha_creacion, producto.estado],
+      connection.execute<ResultSetHeader>(
+        "INSERT INTO productos(nombre, descripcion, precio, id_categoria, fecha_creacion, estado) VALUES(?,?,?,?,?,?)",
+        [producto.nombre, producto.descripcion, producto.precio, producto.id_categoria, producto.fecha_creacion, producto.estado],
         (err, res) => {
           if (err) reject(err);
           else
-            resolve("Producto Creado exitosamente")
+            resolve("Producto Creado exitosamente" + res)
         }
       );
     });

@@ -8,21 +8,21 @@ const estados = {
 };
 
 interface ICategoriaRepository {
-  save(categoria: Categoria): Promise<String>;
+  save(categoria: Categoria): Promise<string>;
 }
 
 class CategoriaRepository implements ICategoriaRepository {
-  save(categoria: Categoria): Promise<String> {
+  save(categoria: Categoria): Promise<string> {
     categoria.fecha_creacion = new Date();
     categoria.estado = estados.activo;
     return new Promise((resolve, reject) => {
-      connection.query<ResultSetHeader>(
+      connection.execute<ResultSetHeader>(
         "INSERT INTO categorias(nombre, descripcion, fecha_creacion, estado) VALUES(?,?,?,?)",
         [categoria.nombre, categoria.descripcion, categoria.fecha_creacion, categoria.estado],
         (err, res) => {
           if (err) reject(err);
           else
-            resolve("Categoria Creada exitosamente")
+            resolve("Categoria Creada exitosamente" + res)
         }
       );
     });
